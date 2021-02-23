@@ -1,5 +1,7 @@
 # infra
-Sharedstake mainnet infra and validator settings
+Sharedstake mainnet infra and validator settings. 
+
+Current infra is a AWS C5.xlarge. 
 
 ## Beacon chain run cmd:
 ```
