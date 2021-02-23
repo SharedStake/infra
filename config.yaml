@@ -1,0 +1,13 @@
+http-web3provider: https://mainnet.infura.io/v3/2b150eabf65140efb3d5508a888ee93e
+graffiti: "SharedStake.org Prysm Validators - #supportEIP1559 - https://SharedStake.org"
+accept-terms-of-use: true
+enable-db-backup-webhook: true
+web: true
+log-file: ./logs2.txt
+p2p-max-peers: 100
+p2p-udp-port: 12000
+p2p-tcp-port: 13000
+enable-next-slot-state-cache: true
+attest-timely: true
+update-head-timely: true
+enable-duty-count-down: true
