@@ -1,0 +1,16 @@
+[Unit]
+Description=Prysm Beacon Chain
+After=network.targeti
+Before=validator.service
+StartLimitIntervalsec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=prysm
+WorkingDirectory=/home/ubuntu/prysm/
+ExecStart= /usr/local/bin/prysm.sh --p2p-host-ip=$(curl -a v4.ident.me)  --config-file=/home/ubuntu/prysm/config.yml
+
+[Install]
+WantedBy=multi-user.target
