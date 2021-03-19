@@ -9,8 +9,8 @@ Type=simple
 Restart=always
 RestartSec=120
 User=prysm
-WorkingDirectory=/home/ubuntu/prysm/
-ExecStart= /usr/local/bin/prysm.sh validator --config-file=/home/ubuntu/prysm/config.yml
+WorkingDirectory=/opt/prysm/
+ExecStart= /opt/prysm/prysm.sh validator --config-file=/opt/prysm/config.yml
 
 [Install]
 WantedBy=multi-user.target

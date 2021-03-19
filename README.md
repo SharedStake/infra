@@ -32,6 +32,7 @@ Run first before restart:
 ```
 
 ## Running Beacon and Validator as services 
+**_NOTE_** DO NOT DO THIS IF THE VALIDATOR IS CURRENTLY RUNNING IN SCREEN
 ```
 useradd -s /bin/false -r prysm
 chown -R /opt/prysm/ prysm

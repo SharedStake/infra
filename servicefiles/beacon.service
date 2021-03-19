@@ -9,8 +9,8 @@ Type=simple
 Restart=always
 RestartSec=1
 User=prysm
-WorkingDirectory=/home/ubuntu/prysm/
-ExecStart= /usr/local/bin/prysm.sh --p2p-host-ip=$(curl -a v4.ident.me)  --config-file=/home/ubuntu/prysm/config.yml
+WorkingDirectory=/opt/prysm/
+ExecStart= /opt/prysm/prysm.sh --p2p-host-ip=$(curl -a v4.ident.me)  --config-file=/opt/prysm/config.yml
 
 [Install]
 WantedBy=multi-user.target
