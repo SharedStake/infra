@@ -10,7 +10,6 @@ Tasks: 114 total,   1 running, 113 sleeping,   0 stopped,   0 zombie
 MiB Mem :   7666.1 total,   2221.2 free,   3426.6 used,   2018.3 buff/cache
 MiB Swap:      0.0 total,      0.0 free,      0.0 used.   6336.6 avail Mem
 ```
-
 ## Beacon chain run cmd:
 ```
 screen -d -m ./prysm.sh beacon-chain --p2p-host-ip=$(curl -s v4.ident.me) --config-file=./config.yaml
@@ -30,4 +29,14 @@ Run first before restart:
 ## Creating new validator keys
 ```
 ./deposit existing-mnemonic --num_validators 10 --chain mainnet
+```
+
+## Running Beacon and Validator as services 
+**_NOTE_** DO NOT DO THIS IF THE VALIDATOR IS CURRENTLY RUNNING IN SCREEN
+```
+useradd -s /bin/false -r prysm
+chown -R /opt/prysm/ prysm
+cp ./servicefiles/* /etc/systemd/system/
+systemctl start beacon.service && systemctl enable beacon.service
+systemctl start validator.service && systemctl enable validator.service
 ```

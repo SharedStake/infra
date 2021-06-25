@@ -1,0 +1,16 @@
+[Unit]
+Description=Prysm Validator
+After=network.target
+Requires=beacon.service
+StartLimitIntervalsec=a
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=120
+User=prysm
+WorkingDirectory=/opt/prysm/
+ExecStart= /opt/prysm/prysm.sh validator --config-file=/opt/prysm/config.yml
+
+[Install]
+WantedBy=multi-user.target
