@@ -13,7 +13,7 @@ Git hooks are executable scripts in `.git/hooks/` that run automatically at spec
 When you try to commit code with `git commit`, the pre-commit hook **automatically** runs:
 
 1. **YAML Syntax Validation** - Checks that `config.yaml` is valid YAML
-2. **Shell Script Syntax Check** - Validates all shell scripts in `scripts/` directory
+2. **Shell Script Linting** - Uses `shellcheck` (if available) or `bash -n` to validate all shell scripts in `scripts/` directory
 3. **Systemd Service File Validation** - Validates service files in `servicefiles/` directory (if systemd-analyze is available)
 
 If any of these checks fail, the commit will be blocked until the issues are fixed.
@@ -57,7 +57,9 @@ If any of these checks fail, the commit will be blocked until the issues are fix
 - Check for missing shebang (`#!/bin/bash`)
 - Verify all quotes are properly closed
 - Check for proper variable syntax
-- Use `bash -n script.sh` to validate syntax
+- Use `bash -n script.sh` to validate basic syntax
+- Install `shellcheck` for comprehensive linting: `apt-get install shellcheck` or `brew install shellcheck`
+- Run `shellcheck script.sh` for detailed linting
 
 ### Service File Errors
 - Ensure proper systemd unit file format

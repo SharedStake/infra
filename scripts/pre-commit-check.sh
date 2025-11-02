@@ -43,16 +43,32 @@ else
     echo -e "${YELLOW}? No YAML validator found, skipping YAML check${NC}"
 fi
 
-# Step 2: Check shell script syntax
+# Step 2: Check shell script syntax and linting
 echo -e "${YELLOW}?? Step 2/3: Checking shell script syntax...${NC}"
 SH_SCRIPTS=$(find scripts -name "*.sh" 2>/dev/null || true)
 if [ -n "$SH_SCRIPTS" ]; then
     for script in $SH_SCRIPTS; do
-        if bash -n "$script" 2>&1; then
-            echo -e "${GREEN}? $script syntax valid${NC}"
-        else
+        # First check basic syntax with bash -n
+        if ! bash -n "$script" 2>&1; then
             echo -e "${RED}? $script has syntax errors${NC}"
+            bash -n "$script" 2>&1
             FAILED=true
+            continue
+        fi
+        
+        # If shellcheck is available, use it for comprehensive linting
+        if command -v shellcheck &> /dev/null; then
+            if shellcheck "$script" 2>&1; then
+                echo -e "${GREEN}? $script passed shellcheck${NC}"
+            else
+                echo -e "${RED}? $script has shellcheck errors:${NC}"
+                shellcheck "$script" 2>&1
+                FAILED=true
+            fi
+        else
+            # Fallback: only syntax check
+            echo -e "${GREEN}? $script syntax valid${NC}"
+            echo -e "${YELLOW}  (Install shellcheck for better linting: apt-get install shellcheck)${NC}"
         fi
     done
 else
