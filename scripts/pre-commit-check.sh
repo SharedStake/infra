@@ -65,11 +65,29 @@ if command -v systemd-analyze &> /dev/null; then
     SERVICE_FILES=$(find servicefiles -name "*.service" 2>/dev/null || true)
     if [ -n "$SERVICE_FILES" ]; then
         for service in $SERVICE_FILES; do
-            if systemd-analyze verify "$service" 2>&1; then
-                echo -e "${GREEN}? $service is valid${NC}"
+            # Run systemd-analyze and filter out "executable not found" errors
+            # (these are expected since executables exist on target system, not dev)
+            set +e  # Temporarily disable exit on error for this command
+            OUTPUT=$(systemd-analyze verify "$service" 2>&1)
+            EXIT_CODE=$?
+            set -e  # Re-enable exit on error
+            
+            # Filter out expected errors about missing executables
+            FILTERED_OUTPUT=$(echo "$OUTPUT" | grep -v "is not executable: No such file or directory" || true)
+            
+            # Check if there are any real errors (not just missing executable warnings)
+            if [ $EXIT_CODE -eq 0 ] || [ -z "$FILTERED_OUTPUT" ]; then
+                echo -e "${GREEN}? $service syntax is valid${NC}"
             else
-                echo -e "${RED}? $service has errors${NC}"
-                FAILED=true
+                # Check if output contains actual syntax errors (not just missing executables)
+                if echo "$FILTERED_OUTPUT" | grep -qE "(Failed|Unknown key|Invalid|error)"; then
+                    echo -e "${RED}? $service has syntax errors:${NC}"
+                    echo "$FILTERED_OUTPUT"
+                    FAILED=true
+                else
+                    echo -e "${GREEN}? $service syntax is valid${NC}"
+                    echo -e "${YELLOW}  (Note: Executable paths will be validated on target system)${NC}"
+                fi
             fi
         done
     else

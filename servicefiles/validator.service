@@ -2,7 +2,7 @@
 Description=Prysm Validator
 After=network.target
 Requires=beacon.service
-StartLimitIntervalsec=a
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple

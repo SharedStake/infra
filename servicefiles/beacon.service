@@ -1,8 +1,8 @@
 [Unit]
 Description=Prysm Beacon Chain
-After=network.targeti
+After=network.target
 Before=validator.service
-StartLimitIntervalsec=0
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
