@@ -1,0 +1,23 @@
+{
+  "name": "sharedstake-infra",
+  "version": "1.0.0",
+  "description": "SharedStake infrastructure configuration and service files",
+  "scripts": {
+    "pre-commit": "bash scripts/pre-commit-check.sh",
+    "pre-commit:fix": "bash scripts/fix-pre-commit-issues.sh",
+    "pre-commit:install": "bash scripts/install-pre-commit-hook.sh",
+    "postinstall": "bash scripts/install-pre-commit-hook.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SharedStake/sharedstake-infra.git"
+  },
+  "keywords": [
+    "prysm",
+    "ethereum",
+    "validator",
+    "infrastructure"
+  ],
+  "author": "",
+  "license": "MIT"
+}
