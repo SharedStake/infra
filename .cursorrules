@@ -1,0 +1,210 @@
+# Cursor Rules for SharedStake Infrastructure
+
+## ?? AI Agent Guidelines
+
+### Pre-Commit Hook System
+**IMPORTANT**: This project uses a git pre-commit hook that runs automatically on every `git commit`. 
+
+**When committing code:**
+- The hook automatically runs validation checks
+- If any check fails, the commit is blocked with clear error messages
+- **DO NOT** bypass with `--no-verify` unless absolutely necessary
+
+**If pre-commit fails:**
+1. Read the error output carefully
+2. Fix the issues in code
+3. Commit again (hook runs automatically)
+
+**Documentation**: See [`llm/PRE_COMMIT_HOOK.md`](./llm/PRE_COMMIT_HOOK.md) for complete details.
+
+### Development Workflow
+- **Configuration**: Edit `config.yaml` for Prysm validator settings
+- **Service Files**: Systemd service files in `servicefiles/` directory
+- **Installation**: Follow README.md for setup instructions
+
+### Project Structure
+- **Config**: `config.yaml` - Prysm validator configuration
+- **Services**: `servicefiles/` - Systemd service definitions
+- **Documentation**: `README.md` - Infrastructure setup and usage
+
+### Code Quality
+- **Always** ensure YAML syntax is valid before committing
+- **Always** ensure shell scripts are syntax-checked
+- **Always** ensure service files follow systemd format
+- The pre-commit hook enforces this automatically
+- Run `./scripts/pre-commit-check.sh` to test manually before committing
+
+### Documentation
+- All AI documentation is in the `llm/` folder
+- See [`llm/README.md`](./llm/README.md) for comprehensive project context
+
+---
+
+## Code Review Process
+
+### Required Review Passes (Minimum 3, Maximum 5)
+
+**Pass 1: Functionality Verification**
+- Verify all configuration files are valid YAML
+- Check that service files follow systemd format
+- Ensure no broken references or paths
+- Verify file paths and permissions are correct
+
+**Pass 2: Configuration Compliance**
+- Verify YAML syntax is correct
+- Check that service files are properly formatted
+- Validate configuration values are appropriate
+- Ensure security best practices are followed
+
+**Pass 3: Code Quality & Redundancy**
+- Remove duplicate configurations
+- Check for unused or commented-out sections
+- Verify consistent formatting across files
+- Ensure proper error handling in scripts
+
+**Pass 4: Edge Cases & Error Handling (if issues found in Pass 3)**
+- Test critical paths and error conditions
+- Verify service dependencies are correct
+- Check restart policies are appropriate
+- Validate system paths and permissions
+
+**Pass 5: Final Validation (if issues found in Pass 4)**
+- Comprehensive end-to-end validation
+- Verify all files parse correctly
+- Final cleanup and documentation
+- Ensure all changes follow security best practices
+
+### Review Completion Criteria
+- All YAML files parse correctly
+- Service files follow systemd format
+- No broken references or paths
+- Configuration values are appropriate
+- No redundant or duplicate code
+- Proper error handling implemented
+
+---
+
+## Rule Enforcement Mechanisms
+
+### Mandatory Compliance Checks
+Before any code changes are considered complete, the following must be verified:
+
+1. **Pre-Commit Hook Validation**
+   - Run `./scripts/pre-commit-check.sh` to verify all checks pass
+   - YAML syntax must be valid
+   - Shell script syntax must be valid
+   - Service files must follow systemd format
+
+2. **Configuration Pattern Compliance**
+   - Use proper YAML indentation (2 spaces)
+   - Follow systemd unit file format
+   - Use consistent naming conventions
+   - Validate file paths and permissions
+
+3. **Code Quality Enforcement**
+   - Check for syntax errors before committing
+   - Remove unused or commented-out code
+   - Ensure consistent formatting
+   - Verify proper error handling
+
+4. **Security Best Practices**
+   - Avoid hardcoded credentials
+   - Use appropriate file permissions
+   - Validate configuration values
+   - Follow principle of least privilege
+
+### Validation Requirements
+
+**Pre-Commit Validation Checklist:**
+- [ ] All YAML files parse correctly
+- [ ] Service files follow systemd format
+- [ ] Shell scripts have valid syntax
+- [ ] No broken file paths or references
+- [ ] Configuration values are appropriate
+- [ ] No duplicate or unused code
+- [ ] Documentation updated if needed
+
+**Automated Validation Commands:**
+```bash
+# Run all checks
+./scripts/pre-commit-check.sh
+
+# Check YAML syntax
+yamllint config.yaml
+
+# Check shell script syntax
+bash -n scripts/*.sh
+
+# Validate systemd service files
+systemd-analyze verify servicefiles/*.service
+```
+
+### Rule Violation Prevention
+
+**Common Violations to Avoid:**
+1. **Invalid YAML** - Use proper indentation and syntax
+2. **Invalid Shell Scripts** - Ensure scripts have valid bash syntax
+3. **Malformed Service Files** - Follow systemd unit file format
+4. **Hardcoded Credentials** - Use environment variables or secure storage
+5. **Missing Error Handling** - Always handle errors gracefully
+6. **Duplicate Code** - Consolidate common configurations
+7. **Unused Code** - Remove unused files and configurations
+
+**Enforcement Actions:**
+- If any rule violation is detected, the code change MUST be rejected
+- All violations MUST be fixed before proceeding to the next review pass
+- Additional review passes MUST be performed until all rules are satisfied
+- Pre-commit hook will block commits if checks fail
+
+---
+
+## Consistency Maintenance Guidelines
+
+### Code Pattern Standards
+
+1. **YAML Configuration** - All config files MUST follow:
+   ```yaml
+   # Comments explain purpose
+   key: value
+   nested:
+     key: value
+   ```
+
+2. **Systemd Service Files** - Always use:
+   ```ini
+   [Unit]
+   Description=Service description
+   After=network.target
+   
+   [Service]
+   Type=simple
+   ExecStart=/path/to/command
+   
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+3. **Shell Scripts** - Consistent error handling:
+   ```bash
+   #!/bin/bash
+   set -e  # Exit on error
+   set -u  # Exit on undefined variable
+   
+   # Script logic
+   ```
+
+### Documentation Requirements
+- All configuration changes MUST be documented
+- Complex logic MUST have comments explaining the approach
+- Service dependencies MUST be documented
+- Breaking changes MUST be documented in `llm/` folder
+- Security implications MUST be documented and validated
+
+### Quality Assurance Process
+1. **Before Making Changes** - Read and understand existing patterns
+2. **During Development** - Follow established patterns and conventions
+3. **After Changes** - Run all validation checks (`./scripts/pre-commit-check.sh`)
+4. **Before Committing** - Ensure all rules are satisfied and documentation is updated
+5. **Multipass Review** - Perform minimum 3-pass review for any significant changes
+
+This comprehensive rule set ensures consistent, maintainable, and secure infrastructure code across the SharedStake project.
